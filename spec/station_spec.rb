@@ -6,16 +6,13 @@ describe Station do
 
   def fill_station(station)
     passenger = Passenger.new
-    station.capacity.times { passenger.enter(station) }
+    station.passenger_capacity.times { passenger.enter(station) }
   end
 
-  it 'should have a passenger capacity' do
-    expect(station.capacity).to eq(1000)
-  end
-
-  it 'should have a variable capacity set by the user' do
+  it 'should have a default and variable capacity' do
+    expect(station.passenger_capacity).to eq(1000)
     station2 = Station.new(2000)
-    expect(station2.capacity).to eq(2000)
+    expect(station2.passenger_capacity).to eq(2000)
   end
 
   it 'should know when it is full' do
@@ -27,8 +24,9 @@ describe Station do
     expect(station).to be_empty
   end
 
-  # it 'should have a maximum platform capacity' do
-  # end
+  it 'should have a default platform capacity' do
+    expect(station.platform_capacity).to eq(4)
+  end
 
   # it 'should not allow more trains to arrive when the platforms are full' do
   # end
