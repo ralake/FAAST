@@ -7,6 +7,7 @@ end
 class Passenger
 
   def initialize
+    touch_out
   end
 
   def board(train)

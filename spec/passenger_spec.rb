@@ -50,5 +50,9 @@ describe Passenger do
     passenger.touch_out
     expect(passenger.touched_in?).to be false
   end
+
+  it 'Should not be initialized as touched in' do
+    expect(passenger.touched_in?).to be false
+  end
   
 end
