@@ -29,10 +29,16 @@ describe Train do
     expect(train).to be_full
   end
 
-  it 'should allow passenger to alight the train' do
+  it 'should allow a passenger to alight the train' do
     train.receive(passenger)
     train.release(passenger)
     expect(train.passenger_count).to eq(0)
+  end
+
+  it 'should know when it is empty' do
+    expect(train.empty?).to be true
+    train.receive(passenger)
+    expect(train.empty?).to be false
   end
 
 
