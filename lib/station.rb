@@ -6,4 +6,12 @@ class Station
 
   attr_reader :capacity
 
+  def full?
+    passengers.count >= @capacity
+  end
+
+  def passengers
+    @passengers ||= []
+  end
+
 end
