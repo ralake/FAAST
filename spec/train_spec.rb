@@ -22,7 +22,7 @@ describe Train do
     expect(train2.capacity).to eq(80)
   end
 
-  it 'should know when it is full' do
+  xit 'should know when it is full' do
     expect(train).not_to be_full
     fill_train(train)
     expect(train).to be_full

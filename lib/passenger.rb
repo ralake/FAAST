@@ -16,11 +16,23 @@ class MustTouchOutError < Exception
   end
 end
 
+class NotEnoughCreditError < Exception
+  def message
+    "Passenger needs atleast 2GBP to touch in"
+  end
+end
+
+class NotInsideStationError < Exception
+  def message
+    "You are not inside the station"
+  end
+end
+
 class Passenger
 
   def initialize
     touch_out
-    @credit = 0
+    @credit = 2
   end
 
   attr_writer :credit
@@ -44,16 +56,19 @@ class Passenger
     station.passengers.delete(self)
   end
 
-  def touch_in
-    @status = true
+  def touch_in(station)
+    raise NotInsideStationError if !station.passengers.include?(self)
+    raise NotEnoughCreditError if @credit < 2
+    @touched_in = true
   end
 
   def touch_out
-    @status = false
+    # @credit -= 2
+    @touched_in = false
   end
 
   def touched_in?
-    @status
+    @touched_in
   end
 
   def credit_check

@@ -10,7 +10,8 @@ describe Passenger do
   it 'should be able to board a train' do
     expect(train).to receive(:passengers)
     expect(train).to receive(:full?)
-    passenger.touch_in
+    passenger.enter(station)
+    passenger.touch_in(station)
     passenger.board(train)
     expect(train.passengers).to eq([passenger])
   end
@@ -18,7 +19,8 @@ describe Passenger do
   it 'should be able to alight a train' do
     expect(train).to receive(:passengers)
     expect(train).to receive(:full?)
-    passenger.touch_in
+    passenger.enter(station)
+    passenger.touch_in(station)
     passenger.board(train)
     passenger.alight(train)
     expect(train.passengers).to eq ([])
@@ -26,7 +28,8 @@ describe Passenger do
 
   it 'cannot board a train if the train is full' do
     expect(train).to receive(:full?).and_return(true)
-    passenger.touch_in
+    passenger.enter(station)
+    passenger.touch_in(station)
     expect { passenger.board(train) }.to raise_error(TrainIsFullError)
   end
 
@@ -44,12 +47,13 @@ describe Passenger do
 
   it 'should touch in once inside the station' do
     passenger.enter(station)
-    passenger.touch_in
+    passenger.touch_in(station)
     expect(passenger.touched_in?).to be true
   end
 
   it 'should touch out before leaving the station' do
-    passenger.touch_in
+    passenger.enter(station)
+    passenger.touch_in(station)
     passenger.touch_out
     expect(passenger.touched_in?).to be false
   end
@@ -64,20 +68,27 @@ describe Passenger do
   end
 
   it 'should not be able to leave a station without touching out' do
-    passenger.touch_in
+    passenger.enter(station)
+    passenger.touch_in(station)
     expect { passenger.exit(station) }.to raise_error(MustTouchOutError)
   end
 
-  it 'should be initialized with no credit in its account' do
-    expect(passenger.credit_check).to eq(0)
+  it 'should not be able to touch in until inside the station' do
+    expect { passenger.touch_in(station) }.to raise_error(NotInsideStationError)
+  end
+
+  it 'should be initialized with 2GBP credit in its account' do
+    expect(passenger.credit_check).to eq(2)
   end
 
   it 'should be able to add credit to its account' do
-    passenger.add_credit(3)
+    passenger.add_credit(1)
     expect(passenger.credit_check).to eq(3)
   end
 
-  xit 'should not be able to touch in if its account is below 2GBP' do
+  xit 'should have 2GBP credit removed each time it touches out' do
+    passenger.touch_out
+    expect(passenger.credit_check).to eq()
   end
 
 end
