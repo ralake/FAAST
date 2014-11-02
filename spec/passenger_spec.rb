@@ -86,9 +86,11 @@ describe Passenger do
     expect(passenger.credit_check).to eq(3)
   end
 
-  xit 'should have 2GBP credit removed each time it touches out' do
+  it 'should have 2GBP credit removed each time it touches out' do
+    passenger.enter(station)
+    passenger.touch_in(station)
     passenger.touch_out
-    expect(passenger.credit_check).to eq()
+    expect(passenger.credit_check).to eq(0)
   end
 
 end

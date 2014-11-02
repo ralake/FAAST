@@ -5,11 +5,12 @@ describe Train do
 
   let(:train) { Train.new }
   let(:passenger) { double :passenger }            
-  let(:station) { double :train_station }
+  let(:station) { double :train_station, { :passengers => []} }
 
   def fill_train(train)
     passenger = Passenger.new
-    passenger.touch_in
+    passenger.enter(station)
+    passenger.touch_in(station)
     train.capacity.times { passenger.board(train) }
   end
 
@@ -22,7 +23,8 @@ describe Train do
     expect(train2.capacity).to eq(80)
   end
 
-  xit 'should know when it is full' do
+  it 'should know when it is full' do
+    expect(station).to receive(:passengers)
     expect(train).not_to be_full
     fill_train(train)
     expect(train).to be_full

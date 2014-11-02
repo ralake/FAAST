@@ -1,30 +1,30 @@
 class TrainIsFullError < Exception
   def message
-    "This train is full"
+    "This train is full."
   end
 end
 
 class NotTouchedInError < Exception
   def message
-    "This passenger needs to touch in before boarding the train"
+    "This passenger needs to touch in before boarding the train."
   end
 end
 
 class MustTouchOutError < Exception
   def message
-    "Passenger must touch out before leaving the station"
+    "Passenger must touch out before leaving the station."
   end
 end
 
 class NotEnoughCreditError < Exception
   def message
-    "Passenger needs atleast 2GBP to touch in"
+    "Passenger needs atleast 2GBP to touch in. Add credit to account."
   end
 end
 
 class NotInsideStationError < Exception
   def message
-    "You are not inside the station"
+    "You are not inside the station."
   end
 end
 
@@ -62,8 +62,13 @@ class Passenger
     @touched_in = true
   end
 
+  def add_credit(amount)
+    @credit += amount
+  end
+
   def touch_out
-    # @credit -= 2
+    # why does this not work like add credit? Why @credit.to_i ???
+    @credit = @credit.to_i - 2
     @touched_in = false
   end
 
@@ -73,10 +78,6 @@ class Passenger
 
   def credit_check
     @credit
-  end
-
-  def add_credit(amount)
-    @credit += amount
   end
 
 end
