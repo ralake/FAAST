@@ -22,4 +22,8 @@ class Passenger
     station.passengers << self
   end
 
+  def exit(station)
+    station.passengers.delete(self)
+  end
+
 end

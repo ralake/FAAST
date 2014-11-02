@@ -32,5 +32,11 @@ describe Passenger do
     passenger.enter(station)
     expect(station.passengers).to eq([passenger])
   end
+
+  it 'must be able to exit a station' do
+    passenger.enter(station)
+    passenger.exit(station)
+    expect(station.passengers).to eq([])
+  end
   
 end
