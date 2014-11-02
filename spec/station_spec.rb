@@ -23,16 +23,17 @@ describe Station do
     expect(station).to be_full
   end
 
-  # xit 'should know when it is empty' do
+  it 'should know when it is empty' do
+    expect(station).to be_empty
+  end
+
+  # it 'should have a maximum platform capacity' do
   # end
 
-  # xit 'should not allow more passengers to enter when it is full' do
+  # it 'should not allow more trains to arrive when the platforms are full' do
   # end
 
-  # xit 'should have a maximum platform capacity' do
-  # end
-
-  # xit 'should not allow more trains to arrive when the platforms are full' do
-  # end
+  # it 'should not allow a passenger to enter if it is full' do
+  # end 
   
 end

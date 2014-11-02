@@ -5,7 +5,7 @@ describe Passenger do
 
   let(:passenger) { Passenger.new }
   let(:train) { double :train, { :passengers => [] } }
-  let(:station) { double :TrainStation, { :passengers => [] } }
+  let(:station) { double :TrainStation, { :passengers => [] , :capacity => 1} }
 
   it 'should be able to board a train' do
     expect(train).to receive(:passengers)
@@ -40,6 +40,7 @@ describe Passenger do
   end
 
   it 'should be able to exit a station' do
+
     passenger.enter(station)
     passenger.exit(station)
     expect(station.passengers).to eq([])

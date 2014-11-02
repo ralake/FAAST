@@ -28,6 +28,12 @@ class NotInsideStationError < Exception
   end
 end
 
+class StationFullError < Exception
+  def message
+    "This station is full."
+  end
+end
+
 class Passenger
 
   def initialize
