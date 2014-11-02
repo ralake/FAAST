@@ -4,6 +4,12 @@ class TrainIsFullError < Exception
   end
 end
 
+class NotTouchedInError < Exception
+  def message
+    "This passenger needs to touch in before boarding the train"
+  end
+end
+
 class Passenger
 
   def initialize
@@ -11,6 +17,7 @@ class Passenger
   end
 
   def board(train)
+    raise NotTouchedInError if touched_in? == false
     raise TrainIsFullError if train.full?
     train.passengers << self
   end

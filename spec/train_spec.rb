@@ -4,11 +4,12 @@ require './lib/passenger'
 describe Train do
 
   let(:train) { Train.new }
-  let(:passenger) { double :passenger }
+  let(:passenger) { double :passenger }            
   let(:station) { double :train_station }
 
   def fill_train(train)
     passenger = Passenger.new
+    passenger.touch_in
     train.capacity.times { passenger.board(train) }
   end
 

@@ -10,6 +10,7 @@ describe Passenger do
   it 'should be able to board a train' do
     expect(train).to receive(:passengers)
     expect(train).to receive(:full?)
+    passenger.touch_in
     passenger.board(train)
     expect(train.passengers).to eq([passenger])
   end
@@ -17,6 +18,7 @@ describe Passenger do
   it 'should be able to alight a train' do
     expect(train).to receive(:passengers)
     expect(train).to receive(:full?)
+    passenger.touch_in
     passenger.board(train)
     passenger.alight(train)
     expect(train.passengers).to eq ([])
@@ -24,6 +26,7 @@ describe Passenger do
 
   it 'cannot board a train if the train is full' do
     expect(train).to receive(:full?).and_return(true)
+    passenger.touch_in
     expect { passenger.board(train) }.to raise_error(TrainIsFullError)
   end
 
@@ -53,6 +56,11 @@ describe Passenger do
 
   it 'Should not be initialized as touched in' do
     expect(passenger.touched_in?).to be false
+  end
+
+  it 'should not be able to board a train if not touched in' do
+    allow(train).to receive(:full?).and_return(false)
+    expect { passenger.board(train) }.to raise_error(NotTouchedInError)
   end
   
 end
