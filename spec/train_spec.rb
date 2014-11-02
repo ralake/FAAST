@@ -38,4 +38,12 @@ describe Train do
     expect(station.train_count).to eq(1)
   end
 
+  it 'should be able to depart from a station' do
+    expect(station).to receive(:train_count).and_return(1, 0)
+    expect(station).to receive(:platforms).and_return([])
+    expect(station.train_count).to eq(1)
+    train.depart(station)
+    expect(station.train_count).to eq(0)
+  end
+
 end

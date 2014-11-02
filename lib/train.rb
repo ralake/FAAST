@@ -30,4 +30,8 @@ class Train
     station.platforms << self
   end
 
+  def depart(station)
+    station.platforms.delete(self)
+  end
+
 end
