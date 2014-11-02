@@ -4,7 +4,6 @@ require './lib/passenger'
 describe Train do
 
   let(:train) { Train.new }
-  let(:train2) { Train.new(2) }
   let(:passenger) { double :passenger }
   let(:station) { double :train_station }
 
@@ -18,6 +17,7 @@ describe Train do
   end
 
   it 'can change its capacity depending on the number of carraiages it has' do
+    train2 = Train.new(2)
     expect(train2.capacity).to eq(80)
   end
 
