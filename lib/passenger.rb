@@ -18,4 +18,8 @@ class Passenger
     train.passengers.delete(self)  
   end
 
+  def enter(station)
+    station.passengers << self
+  end
+
 end

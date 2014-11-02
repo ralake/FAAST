@@ -3,8 +3,9 @@ require './lib/train'
 
 describe Passenger do
 
-  let (:passenger) { Passenger.new }
-  let (:train) { double :train, { :passengers => [] } }
+  let(:passenger) { Passenger.new }
+  let(:train) { double :train, { :passengers => [] } }
+  let(:station) { double :TrainStation, { :passengers => [] } }
 
   it 'must be able to board a train' do
     expect(train).to receive(:passengers)
@@ -24,6 +25,12 @@ describe Passenger do
   it 'cannot board a train if the train is full' do
     expect(train).to receive(:full?).and_return(true)
     expect { passenger.board(train) }.to raise_error(TrainIsFullError)
+  end
+
+  it 'must be able to enter a station' do
+    expect(station).to receive(:passengers)
+    passenger.enter(station)
+    expect(station.passengers).to eq([passenger])
   end
   
 end
