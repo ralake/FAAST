@@ -30,6 +30,10 @@ class Passenger
     @status = true
   end
 
+  def touch_out
+    @status = false
+  end
+
   def touched_in?
     @status
   end

@@ -39,10 +39,16 @@ describe Passenger do
     expect(station.passengers).to eq([])
   end
 
-  it 'should touch in once insde the station' do
+  it 'should touch in once inside the station' do
     passenger.enter(station)
     passenger.touch_in
     expect(passenger.touched_in?).to be true
+  end
+
+  it 'should touch out before leaving the station' do
+    passenger.touch_in
+    passenger.touch_out
+    expect(passenger.touched_in?).to be false
   end
   
 end
