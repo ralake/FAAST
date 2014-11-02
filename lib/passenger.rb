@@ -10,6 +10,12 @@ class NotTouchedInError < Exception
   end
 end
 
+class MustTouchOutError < Exception
+  def message
+    "Passenger must touch out before leaving the station"
+  end
+end
+
 class Passenger
 
   def initialize
@@ -31,6 +37,7 @@ class Passenger
   end
 
   def exit(station)
+    raise MustTouchOutError if touched_in? == true
     station.passengers.delete(self)
   end
 

@@ -62,5 +62,10 @@ describe Passenger do
     allow(train).to receive(:full?).and_return(false)
     expect { passenger.board(train) }.to raise_error(NotTouchedInError)
   end
+
+  it 'should not be able to leave a station without touching out' do
+    passenger.touch_in
+    expect { passenger.exit(station) }.to raise_error(MustTouchOutError)
+  end
   
 end
