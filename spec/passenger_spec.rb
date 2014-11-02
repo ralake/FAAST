@@ -69,10 +69,12 @@ describe Passenger do
   end
 
   it 'should be initialized with no credit in its account' do
-    expect(passenger.credit).to eq(0)
+    expect(passenger.credit_check).to eq(0)
   end
 
-  xit 'should be able to add credit to its account' do
+  it 'should be able to add credit to its account' do
+    passenger.add_credit(3)
+    expect(passenger.credit_check).to eq(3)
   end
 
   xit 'should not be able to touch in if its account is below 2GBP' do

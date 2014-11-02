@@ -56,8 +56,12 @@ class Passenger
     @status
   end
 
-  def credit
+  def credit_check
     @credit
+  end
+
+  def add_credit(amount)
+    @credit += amount
   end
 
 end
