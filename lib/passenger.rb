@@ -26,4 +26,12 @@ class Passenger
     station.passengers.delete(self)
   end
 
+  def touch_in
+    @status = true
+  end
+
+  def touched_in?
+    @status
+  end
+
 end
