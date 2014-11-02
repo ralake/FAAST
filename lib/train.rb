@@ -22,4 +22,8 @@ class Train
     passengers.count
   end
 
+  def full?
+    passenger_count >= @capacity
+  end
+
 end

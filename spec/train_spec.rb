@@ -5,7 +5,10 @@ describe Train do
   let(:train) { Train.new }
   let(:train2) { Train.new(2) }
   let(:passenger) { double :passenger }
-  let(:p2) { double :passenger }
+
+  def fill_train(train)
+    train.capacity.times { train.receive(passenger) }
+  end
 
   it 'has a capacity which limits the amount of passengers it can hold' do
     expect(train.capacity).to eq(40)
@@ -18,6 +21,12 @@ describe Train do
   it 'should be able to hold a passenger' do
     train.receive(passenger)
     expect(train.passenger_count).to eq(1)
+  end
+
+  it 'should know when it is full' do
+    expect(train).not_to be_full
+    fill_train(train)
+    expect(train).to be_full
   end
 
 
