@@ -4,12 +4,22 @@ class Train
     @capacity = number_of_carriages.to_i * carriage_capacity
   end
 
-  def capacity
-    @capacity
+  def passengers
+    @passengers ||= []
   end
+
+  attr_reader :capacity
 
   def carriage_capacity(number = 40)
     number.to_i
+  end
+
+  def receive(passenger)
+    passengers << passenger
+  end
+
+  def passenger_count
+    passengers.count
   end
 
 end
