@@ -20,7 +20,10 @@ class Passenger
 
   def initialize
     touch_out
+    @credit = 0
   end
+
+  attr_writer :credit
 
   def board(train)
     raise NotTouchedInError if touched_in? == false
@@ -51,6 +54,10 @@ class Passenger
 
   def touched_in?
     @status
+  end
+
+  def credit
+    @credit
   end
 
 end

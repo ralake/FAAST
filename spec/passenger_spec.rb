@@ -67,5 +67,15 @@ describe Passenger do
     passenger.touch_in
     expect { passenger.exit(station) }.to raise_error(MustTouchOutError)
   end
-  
+
+  it 'should be initialized with no credit in its account' do
+    expect(passenger.credit).to eq(0)
+  end
+
+  xit 'should be able to add credit to its account' do
+  end
+
+  xit 'should not be able to touch in if its account is below 2GBP' do
+  end
+
 end
