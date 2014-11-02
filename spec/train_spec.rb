@@ -6,6 +6,7 @@ describe Train do
   let(:train) { Train.new }
   let(:train2) { Train.new(2) }
   let(:passenger) { double :passenger }
+  let(:station) { double :train_station }
 
   def fill_train(train)
     passenger = Passenger.new
@@ -28,6 +29,13 @@ describe Train do
 
   it 'should know when it is empty' do
     expect(train.empty?).to be true
+  end
+
+  it 'should be able to arrive at a station' do
+    expect(station). to receive(:train_count).and_return(1)
+    expect(station).to receive(:platforms).and_return([train])
+    train.arrive(station)
+    expect(station.train_count).to eq(1)
   end
 
 end

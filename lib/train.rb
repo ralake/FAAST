@@ -26,4 +26,8 @@ class Train
     passenger_count == 0
   end
 
+  def arrive(station)
+    station.platforms << self
+  end
+
 end
