@@ -1,3 +1,9 @@
+class TrainFullError < Exception
+  def message
+    "No more room on the train"
+  end
+end
+
 class Train
 
   def initialize(number_of_carriages = 1)
@@ -14,11 +20,12 @@ class Train
     number.to_i
   end
 
-  def receive(passenger)
+  def receive_passenger(passenger)
+    raise TrainFullError if full?
     passengers << passenger
   end
 
-  def release(passenger)
+  def release_passenger(passenger)
     passengers.delete(passenger)
   end
 
