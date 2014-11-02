@@ -1,11 +1,12 @@
 class Station
 
-  def initialize(passenger_capacity = 1000)
+  def initialize(platform_capacity, passenger_capacity = 1000)
     @passenger_capacity = passenger_capacity
+    @platform_capacity = platform_capacity
   end
 
   attr_reader :passenger_capacity
-  attr_reader :platform_capactiy
+  attr_reader :platform_capacity
 
   def full?
     passengers.count >= @passenger_capacity
@@ -23,8 +24,4 @@ class Station
     @platforms ||= []
   end
 
-  def platform_capacity(number = 4)
-    @platform_capacity = number
-  end
-  
 end
