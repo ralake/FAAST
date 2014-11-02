@@ -18,6 +18,10 @@ class Train
     passengers << passenger
   end
 
+  def release(passenger)
+    @passengers.delete(passenger)
+  end
+
   def passenger_count
     passengers.count
   end
