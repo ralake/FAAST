@@ -9,44 +9,45 @@ describe Train do
 
   def fill_train(train)
     passenger = Passenger.new
-    passenger.enter(station)
-    passenger.touch_in(station)
+    passenger.touch_in
     train.capacity.times { passenger.board(train) }
   end
 
   it 'has a capacity which limits the amount of passengers it can hold' do
-    expect(train.capacity).to eq(40)
+    expect(train.capacity).to eq(80)
   end
 
   it 'can change its capacity depending on the number of carraiages it has' do
-    train2 = Train.new(2)
-    expect(train2.capacity).to eq(80)
+    train2 = Train.new(3)
+    expect(train2.capacity).to eq(120)
   end
 
   it 'should know when it is full' do
-    expect(station).to receive(:passengers)
-    expect(train).not_to be_full
-    fill_train(train)
-    expect(train).to be_full
+    expect { fill_train(train) }.to raise_error(TrainIsFullError)
   end
 
   it 'should know when it is empty' do
     expect(train.empty?).to be true
   end
 
+  it 'should receive passengers' do
+    expect { train.receive(passenger) }.to change { train.passengers }
+  end
+
+  it 'should release passengers' do
+    train.receive(passenger)
+    train.release(passenger)
+    expect(train.passengers.count).to eq(0)
+  end
+
   it 'should be able to arrive at a station' do
-    expect(station). to receive(:train_count).and_return(1)
-    expect(station).to receive(:platforms).and_return([train])
+    expect(station).to receive(:receive)
     train.arrive(station)
-    expect(station.train_count).to eq(1)
   end
 
   it 'should be able to depart from a station' do
-    expect(station).to receive(:train_count).and_return(1, 0)
-    expect(station).to receive(:platforms).and_return([])
-    expect(station.train_count).to eq(1)
+    expect(station).to receive(:release)   
     train.depart(station)
-    expect(station.train_count).to eq(0)
   end
 
 end

@@ -1,43 +1,9 @@
-class TrainIsFullError < Exception
-  def message
-    "This train is full."
-  end
-end
-
-class NotTouchedInError < Exception
-  def message
-    "This passenger needs to touch in before boarding the train."
-  end
-end
-
-class MustTouchOutError < Exception
-  def message
-    "Passenger must touch out before leaving the station."
-  end
-end
-
-class NotEnoughCreditError < Exception
-  def message
-    "Passenger needs atleast 2GBP to touch in. Add credit to account."
-  end
-end
-
-class NotInsideStationError < Exception
-  def message
-    "You are not inside the station."
-  end
-end
-
-class StationFullError < Exception
-  def message
-    "This station is full."
-  end
-end
+require './lib/exceptions.rb'
 
 class Passenger
 
   def initialize
-    touch_out
+    @touched_in = false
     @credit = 2
   end
 
@@ -45,25 +11,24 @@ class Passenger
 
   def board(train)
     raise NotTouchedInError if touched_in? == false
+    train.receive(self)
     raise TrainIsFullError if train.full?
-    train.passengers << self
   end
 
   def alight(train)
-    train.passengers.delete(self)  
+    train.release(self)
   end
 
   def enter(station)
-    station.passengers << self
+    station.receive_passenger(self)
   end
 
   def exit(station)
     raise MustTouchOutError if touched_in? == true
-    station.passengers.delete(self)
+    station.release_passenger(self)
   end
 
-  def touch_in(station)
-    raise NotInsideStationError if !station.passengers.include?(self)
+  def touch_in
     raise NotEnoughCreditError if @credit < 2
     @touched_in = true
   end
@@ -73,8 +38,7 @@ class Passenger
   end
 
   def touch_out
-    # why does this not work like add credit? Why @credit.to_i ???
-    @credit = @credit.to_i - 2
+    @credit -= 2
     @touched_in = false
   end
 

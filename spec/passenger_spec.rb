@@ -8,55 +8,50 @@ describe Passenger do
   let(:station) { double :TrainStation, { :passengers => [] , :capacity => 1} }
 
   it 'should be able to board a train' do
-    expect(train).to receive(:passengers)
-    expect(train).to receive(:full?)
-    passenger.enter(station)
-    passenger.touch_in(station)
+    allow(train).to receive(:receive)
+    allow(train).to receive(:full?)
+    passenger.touch_in
     passenger.board(train)
-    expect(train.passengers).to eq([passenger])
   end
 
   it 'should be able to alight a train' do
-    expect(train).to receive(:passengers)
-    expect(train).to receive(:full?)
-    passenger.enter(station)
-    passenger.touch_in(station)
-    passenger.board(train)
+    expect(train).to receive(:release)
     passenger.alight(train)
-    expect(train.passengers).to eq ([])
   end
 
   it 'cannot board a train if the train is full' do
-    expect(train).to receive(:full?).and_return(true)
-    passenger.enter(station)
-    passenger.touch_in(station)
+    allow(train).to receive(:full?).and_return(:true)
+    allow(train).to receive(:receive)
+    passenger.touch_in
     expect { passenger.board(train) }.to raise_error(TrainIsFullError)
   end
 
   it 'should be able to enter a station' do
-    expect(station).to receive(:passengers)
+    expect(station).to receive(:receive_passenger)
     passenger.enter(station)
-    expect(station.passengers).to eq([passenger])
   end
 
   it 'should be able to exit a station' do
-
-    passenger.enter(station)
+    expect(station).to receive(:release_passenger)
     passenger.exit(station)
-    expect(station.passengers).to eq([])
   end
 
-  it 'should touch in once inside the station' do
-    passenger.enter(station)
-    passenger.touch_in(station)
+  it 'should be able to touch in' do
+    passenger.touch_in
     expect(passenger.touched_in?).to be true
   end
 
-  it 'should touch out before leaving the station' do
-    passenger.enter(station)
-    passenger.touch_in(station)
+  it 'should be able to touch out' do
+    passenger.touch_in
     passenger.touch_out
     expect(passenger.touched_in?).to be false
+  end
+
+  it 'should touch out before leaving the station' do
+    expect(station).to receive(:receive_passenger)
+    passenger.enter(station)
+    passenger.touch_in
+    expect { passenger.exit(station) }.to raise_error(MustTouchOutError)
   end
 
   it 'Should not be initialized as touched in' do
@@ -66,16 +61,6 @@ describe Passenger do
   it 'should not be able to board a train if not touched in' do
     allow(train).to receive(:full?).and_return(false)
     expect { passenger.board(train) }.to raise_error(NotTouchedInError)
-  end
-
-  it 'should not be able to leave a station without touching out' do
-    passenger.enter(station)
-    passenger.touch_in(station)
-    expect { passenger.exit(station) }.to raise_error(MustTouchOutError)
-  end
-
-  it 'should not be able to touch in until inside the station' do
-    expect { passenger.touch_in(station) }.to raise_error(NotInsideStationError)
   end
 
   it 'should be initialized with 2GBP credit in its account' do
@@ -88,8 +73,7 @@ describe Passenger do
   end
 
   it 'should have 2GBP credit removed each time it touches out' do
-    passenger.enter(station)
-    passenger.touch_in(station)
+    passenger.touch_in
     passenger.touch_out
     expect(passenger.credit_check).to eq(0)
   end

@@ -1,6 +1,8 @@
+require './lib/exceptions'
+
 class Train
 
-  def initialize(number_of_carriages = 1)
+  def initialize(number_of_carriages = 2)
     @capacity = number_of_carriages * carriage_capacity
   end
 
@@ -14,24 +16,29 @@ class Train
     number.to_i
   end
 
-  def passenger_count
-    passengers.count
-  end
-
   def full?
-    passenger_count >= @capacity
+    passengers.count >= @capacity
   end
 
   def empty?
-    passenger_count == 0
+    passengers.count == 0
+  end
+
+  def receive(passenger)
+    raise TrainIsFullError if full?
+    passengers << passenger
+  end
+
+  def release(passenger)
+    passengers.delete(passenger)
   end
 
   def arrive(station)
-    station.platforms << self
+    station.receive(self)
   end
 
   def depart(station)
-    station.platforms.delete(self)
+    station.release(self)
   end
 
 end
