@@ -55,8 +55,10 @@ describe Station do
     expect(station3.platform_capacity).to eq(10)
   end
 
-  # it 'should not allow more trains to arrive when the platforms are full' do
-  # end
+  it 'should not allow more trains to arrive when the platforms are full' do
+    station.platform_capacity.times { station.receive_train(train) }
+    expect { station.receive_train(train) }.to raise_error(NoPlatformAvailableError)
+  end
 
   # it 'should not allow a passenger to enter if it is full' do
   # end 

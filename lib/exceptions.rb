@@ -33,3 +33,9 @@ class StationFullError < Exception
     "This station is full."
   end
 end
+
+class NoPlatformAvailableError < Exception
+  def message
+    "The platforms are full. Wait for a train to leave the station"
+  end
+end
