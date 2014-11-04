@@ -1,3 +1,5 @@
+# require '/lib/exceptions'
+
 class Station
 
   def initialize(platform_capacity = 4, passenger_capacity = 1000)

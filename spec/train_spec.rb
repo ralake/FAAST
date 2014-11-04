@@ -41,12 +41,12 @@ describe Train do
   end
 
   it 'should be able to arrive at a station' do
-    expect(station).to receive(:receive)
+    expect(station).to receive(:receive_train)
     train.arrive(station)
   end
 
   it 'should be able to depart from a station' do
-    expect(station).to receive(:release)   
+    expect(station).to receive(:release_train)   
     train.depart(station)
   end
 

@@ -1,4 +1,4 @@
-require './lib/exceptions'
+# require './lib/exceptions'
 
 class Train
 
@@ -34,11 +34,11 @@ class Train
   end
 
   def arrive(station)
-    station.receive(self)
+    station.receive_train(self)
   end
 
   def depart(station)
-    station.release(self)
+    station.release_train(self)
   end
 
 end

@@ -1,4 +1,4 @@
-require './lib/exceptions.rb'
+# require './lib/exceptions.rb'
 
 class Passenger
 
