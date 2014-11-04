@@ -1,5 +1,3 @@
-# require '/lib/exceptions'
-
 class Station
 
   def initialize(platform_capacity = 4, passenger_capacity = 1000)
@@ -27,7 +25,7 @@ class Station
   end
 
   def receive_passenger(passenger)
-    raise StationIsFullError if passengers.count >= passenger_capacity
+    raise "The station is full." if passengers.count >= passenger_capacity
     passengers << passenger
   end
 
@@ -36,7 +34,7 @@ class Station
   end
 
   def receive_train(train)
-    raise NoPlatformAvailableError if platforms.count >= platform_capacity
+    raise "No platforms are available." if platforms.count >= platform_capacity
     platforms << train
   end
 

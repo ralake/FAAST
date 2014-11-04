@@ -1,5 +1,3 @@
-# require './lib/exceptions.rb'
-
 class Passenger
 
   def initialize
@@ -10,9 +8,9 @@ class Passenger
   attr_writer :credit
 
   def board(train)
-    raise NotTouchedInError if touched_in? == false
+    raise "The passenger is not touched in." if touched_in? == false
     train.receive(self)
-    raise TrainIsFullError if train.full?
+    raise "This train is full." if train.full?
   end
 
   def alight(train)
@@ -24,12 +22,12 @@ class Passenger
   end
 
   def exit(station)
-    raise MustTouchOutError if touched_in? == true
+    raise "The passenger must touch out before leaving the station." if touched_in? == true
     station.release_passenger(self)
   end
 
   def touch_in
-    raise NotEnoughCreditError if @credit < 2
+    raise "The passenger does not have enough credit. Please add credit."if @credit < 2
     @touched_in = true
   end
 
