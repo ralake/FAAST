@@ -25,6 +25,7 @@ class Station
   end
 
   def receive_passenger(passenger)
+    raise StationIsFullError if passengers.count >= passenger_capacity
     passengers << passenger
   end
 

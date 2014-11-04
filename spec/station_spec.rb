@@ -11,7 +11,7 @@ describe Station do
     station.passenger_capacity.times { passenger.enter(station) }
   end
 
-  it 'should have a default and variable capacity' do
+  it 'should have a default and variable passenger capacity' do
     expect(station.passenger_capacity).to eq(1000)
     station2 = Station.new(4, 2000)
     expect(station2.passenger_capacity).to eq(2000)
@@ -31,6 +31,11 @@ describe Station do
     fill_station(station)
     expect(station).to be_full
   end
+
+  it 'should not allow a passenger to enter if it is full' do
+    fill_station(station)
+    expect { station.receive_passenger(passenger) }.to raise_error(StationIsFullError)
+  end 
 
   it 'should know when there are no passengers inside' do
     expect(station).to be_empty
@@ -59,8 +64,5 @@ describe Station do
     station.platform_capacity.times { station.receive_train(train) }
     expect { station.receive_train(train) }.to raise_error(NoPlatformAvailableError)
   end
-
-  # it 'should not allow a passenger to enter if it is full' do
-  # end 
   
 end

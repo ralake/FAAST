@@ -28,7 +28,7 @@ class NotInsideStationError < Exception
   end
 end
 
-class StationFullError < Exception
+class StationIsFullError < Exception
   def message
     "This station is full."
   end
