@@ -4,12 +4,12 @@ describe Train do
 
   let(:train) { Train.new }
   let(:passenger) { double :passenger }            
-  let(:station) { double :train_station, { :passengers => []} }
+  let(:station) { double :train_station,  :passengers => []  }
 
   def fill_train(train)
     passenger = Passenger.new
     passenger.touch_in
-    train.capacity.times { passenger.board(train) }
+    train.capacity.times { passenger.board(train, station) }
   end
 
   it 'can change its capacity depending on the number of carraiages it has' do
@@ -24,6 +24,7 @@ describe Train do
     end
 
     it 'should know when it is full' do
+      allow(station).to receive(:platforms).and_return([])
       expect { fill_train(train) }.to raise_error(RuntimeError)
     end
 
@@ -32,11 +33,18 @@ describe Train do
     end
 
     it 'should receive passengers' do
-      expect { train.receive(passenger) }.to change { train.passengers }
+      allow(station).to receive(:platforms).and_return([train])
+      expect { train.receive(passenger, station) }.to change { train.passengers }
+    end
+
+    it 'should only allow passengers to board if it is at a station' do
+      allow(station).to receive(:platforms).and_return([])
+      expect { train.receive(passenger, station) }.to raise_error(RuntimeError)
     end
 
     it 'should release passengers' do
-      train.receive(passenger)
+      allow(station).to receive(:platforms).and_return([train])
+      train.receive(passenger, station)
       train.release(passenger)
       expect(train.passengers.count).to eq(0)
     end

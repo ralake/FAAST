@@ -24,8 +24,8 @@ class Train
     passengers.count == 0
   end
 
-  def receive(passenger)
-    raise TrainIsFullError if full?
+  def receive(passenger, station)
+    raise "This train is not at the station" unless self.station?(station)
     passengers << passenger
   end
 
@@ -39,6 +39,10 @@ class Train
 
   def depart(station)
     station.release_train(self)
+  end
+
+  def station?(station)
+    station.platforms.include?(self)
   end
 
 end

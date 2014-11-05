@@ -7,9 +7,9 @@ class Passenger
 
   attr_writer :credit
 
-  def board(train)
+  def board(train, station)
     raise "The passenger is not touched in." if touched_in? == false
-    train.receive(self)
+    train.receive(self, station)
     raise "This train is full." if train.full?
   end
 

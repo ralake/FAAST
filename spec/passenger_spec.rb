@@ -12,7 +12,7 @@ describe Passenger do
       allow(train).to receive(:receive)
       allow(train).to receive(:full?)
       passenger.touch_in
-      passenger.board(train)
+      passenger.board(train, station)
     end
 
     it 'should be able to alight a train' do
@@ -24,12 +24,12 @@ describe Passenger do
       allow(train).to receive(:full?).and_return(:true)
       allow(train).to receive(:receive)
       passenger.touch_in
-      expect { passenger.board(train) }.to raise_error(RuntimeError)
+      expect { passenger.board(train, station) }.to raise_error(RuntimeError)
     end
 
     it 'should not be able to board a train if not touched in' do
       allow(train).to receive(:full?).and_return(false)
-      expect { passenger.board(train) }.to raise_error(RuntimeError)
+      expect { passenger.board(train, station) }.to raise_error(RuntimeError)
     end
 
   end
