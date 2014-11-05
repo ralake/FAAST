@@ -15,7 +15,10 @@ describe Station do
   
     it 'should have a default and variable passenger capacity' do
       expect(station.passenger_capacity).to eq(1000)
-      station2 = Station.new(4, 2000)
+    end
+
+    it 'should be able to set a capacity on initializing' do
+      station2 = Station.new(4, 2000) 
       expect(station2.passenger_capacity).to eq(2000)
     end
 

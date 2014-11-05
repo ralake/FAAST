@@ -12,15 +12,15 @@ describe Train do
     train.capacity.times { passenger.board(train, station) }
   end
 
-  it 'can change its capacity depending on the number of carraiages it has' do
-    train2 = Train.new(3)
-    expect(train2.capacity).to eq(120)
-  end
-
   context "Passenger interactions" do
 
     it 'has a capacity which limits the amount of passengers it can hold' do
       expect(train.capacity).to eq(80)
+    end
+
+    it 'can change its capacity depending on the number of carraiages it has' do
+      train2 = Train.new(3)
+      expect(train2.capacity).to eq(120)
     end
 
     it 'should know when it is full' do
