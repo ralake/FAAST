@@ -45,8 +45,13 @@ describe Train do
     it 'should release passengers' do
       allow(station).to receive(:platforms).and_return([train])
       train.receive(passenger, station)
-      train.release(passenger)
+      train.release(passenger, station)
       expect(train.passengers.count).to eq(0)
+    end
+
+    it 'should not allow passengers to alight if it is not at a station' do
+      allow(station).to receive(:platforms).and_return([])
+      expect { train.release(passenger, station) }.to raise_error(RuntimeError)
     end
 
   end

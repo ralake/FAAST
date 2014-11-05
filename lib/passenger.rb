@@ -1,11 +1,11 @@
 class Passenger
 
+  attr_writer :credit
+
   def initialize
     @touched_in = false
     @credit = 2
   end
-
-  attr_writer :credit
 
   def board(train, station)
     raise "The passenger is not touched in." if touched_in? == false
@@ -13,8 +13,8 @@ class Passenger
     raise "This train is full." if train.full?
   end
 
-  def alight(train)
-    train.release(self)
+  def alight(train, station)
+    train.release(self, station)
   end
 
   def enter(station)

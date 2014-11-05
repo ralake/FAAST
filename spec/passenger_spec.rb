@@ -16,8 +16,8 @@ describe Passenger do
     end
 
     it 'should be able to alight a train' do
-      expect(train).to receive(:release)
-      passenger.alight(train)
+      allow(train).to receive(:release)
+      passenger.alight(train, station)
     end
 
     it 'cannot board a train if the train is full' do
@@ -58,7 +58,7 @@ describe Passenger do
     end
 
     it 'should touch out before leaving the station' do
-      expect(station).to receive(:receive_passenger)
+      allow(station).to receive(:receive_passenger)
       passenger.enter(station)
       passenger.touch_in
       expect { passenger.exit(station) }.to raise_error(RuntimeError)

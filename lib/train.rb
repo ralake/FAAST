@@ -2,6 +2,8 @@
 
 class Train
 
+   attr_reader :capacity
+
   def initialize(number_of_carriages = 2)
     @capacity = number_of_carriages * carriage_capacity
   end
@@ -9,8 +11,6 @@ class Train
   def passengers
     @passengers ||= []
   end
-
-  attr_reader :capacity
 
   def carriage_capacity(number = 40)
     number.to_i
@@ -25,11 +25,12 @@ class Train
   end
 
   def receive(passenger, station)
-    raise "This train is not at the station" unless self.station?(station)
+    raise "This train is not at the station" unless self.at_station?(station)
     passengers << passenger
   end
 
-  def release(passenger)
+  def release(passenger, station)
+    raise "The train has not arrived yet" unless self.at_station?(station)
     passengers.delete(passenger)
   end
 
@@ -41,7 +42,7 @@ class Train
     station.release_train(self)
   end
 
-  def station?(station)
+  def at_station?(station)
     station.platforms.include?(self)
   end
 
