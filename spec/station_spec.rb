@@ -7,8 +7,10 @@ describe Station do
   let(:train) { double :train }
 
   def fill_station(station)
-    passenger = Passenger.new
-    station.passenger_capacity.times { passenger.enter(station) }
+    station.passenger_capacity.times do
+      passenger = Passenger.new
+      passenger.enter(station)
+    end
   end
 
   context "Passenger interactions" do
@@ -26,10 +28,7 @@ describe Station do
       expect {station.receive_passenger(passenger)}.to change { station.passengers }
     end
 
-     it 'should release passengers' do
-      station.receive_passenger(passenger)
-      station.release_passenger(passenger)
-      expect(station.passengers.count).to eq(0)
+    it 'should not receive a passenger if they are already at the station' do
     end
 
     it 'should know when it is full of passengers' do
@@ -41,6 +40,12 @@ describe Station do
       fill_station(station)
       expect { station.receive_passenger(passenger) }.to raise_error(RuntimeError)
     end 
+
+    it 'should release passengers' do
+      station.receive_passenger(passenger)
+      station.release_passenger(passenger)
+      expect(station.passengers.count).to eq(0)
+    end
 
     it 'should know when there are no passengers inside' do
       expect(station).to be_empty

@@ -14,7 +14,7 @@ describe Train do
 
   context "Passenger interactions" do
 
-    it 'has a capacity which limits the amount of passengers it can hold' do
+    it 'has a passenger capacity' do
       expect(train.capacity).to eq(80)
     end
 
@@ -61,6 +61,12 @@ describe Train do
     it 'should be able to arrive at a station' do
       expect(station).to receive(:receive_train)
       train.arrive(station)
+    end
+
+    xit 'should not be able to arrive at the next station if it has not departed the current station' do
+    end
+
+    xit 'should not be able to arrive at the same station twice' do
     end
 
     it 'should be able to depart from a station' do

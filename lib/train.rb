@@ -1,5 +1,3 @@
-# require './lib/exceptions'
-
 class Train
 
    attr_reader :capacity
@@ -25,6 +23,7 @@ class Train
   end
 
   def receive(passenger, station)
+    raise "This train is full." if full?
     raise "This train is not at the station" unless self.at_station?(station)
     passengers << passenger
   end
