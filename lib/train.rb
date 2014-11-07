@@ -11,10 +11,6 @@ class Train
     @passengers ||= []
   end
 
-  def carriage_capacity(number = 40)
-    number.to_i
-  end
-
   def full?
     passengers.count >= @capacity
   end
@@ -48,6 +44,12 @@ class Train
 
   def at_station?(station)
     station.platforms.include?(self)
+  end
+
+private
+  
+  def carriage_capacity(number = 40)
+    number.to_i
   end
 
 end

@@ -36,12 +36,6 @@ class Passenger
     @touched_in = true
   end
 
-  def touch_in_checks
-    raise "Passenger is not inside a station" if @current_station == nil
-    raise "Passenger does not have enough credit. Please add credit."if @credit < 2
-    raise "Passenger is already touched in" if @touched_in == true
-  end
-
   def add_credit(amount)
     @credit += amount
   end
@@ -58,6 +52,14 @@ class Passenger
 
   def credit_check
     @credit
+  end
+
+private
+
+  def touch_in_checks
+    raise "Passenger is not inside a station" if @current_station == nil
+    raise "Passenger does not have enough credit. Please add credit."if @credit < 2
+    raise "Passenger is already touched in" if @touched_in == true
   end
 
 end
