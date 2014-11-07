@@ -25,6 +25,7 @@ class Station
   end
 
   def receive_passenger(passenger)
+    raise "Passenger is already at the station" if passengers.include?(passenger)
     raise "The station is full." if passengers.count >= passenger_capacity
     passengers << passenger
   end

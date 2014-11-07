@@ -5,6 +5,7 @@ describe Train do
   let(:train) { Train.new }
   let(:passenger) { double :passenger }            
   let(:station) { double :train_station,  :passengers => []  }
+  let(:station2) { double :train_station }
 
   def fill_train(train)
     passenger = Passenger.new
@@ -63,10 +64,18 @@ describe Train do
       train.arrive(station)
     end
 
-    xit 'should not be able to arrive at the next station if it has not departed the current station' do
+    it 'should not be able to arrive at the next station if it has not departed the current station' do
+      allow(station).to receive(:receive_train)
+      allow(station2).to receive(:receive_train)
+      train.arrive(station)
+      expect { train.arrive(station2) }.to raise_error(RuntimeError)
     end
 
-    xit 'should not be able to arrive at the same station twice' do
+    it 'should not be able to arrive at the same station twice' do
+      allow(station).to receive(:receive_train)
+      allow(station2).to receive(:receive_train)
+      train.arrive(station)
+      expect { train.arrive(station) }.to raise_error(RuntimeError)
     end
 
     it 'should be able to depart from a station' do

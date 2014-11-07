@@ -1,9 +1,10 @@
 class Train
 
-   attr_reader :capacity
+   attr_reader :capacity, :station
 
   def initialize(number_of_carriages = 2)
     @capacity = number_of_carriages * carriage_capacity
+    @station = nil
   end
 
   def passengers
@@ -26,6 +27,7 @@ class Train
     raise "This train is full." if full?
     raise "This train is not at the station" unless self.at_station?(station)
     passengers << passenger
+    station.passengers.delete(passenger)
   end
 
   def release(passenger, station)
@@ -34,11 +36,14 @@ class Train
   end
 
   def arrive(station)
+    raise "This train is at another station" unless @station == nil
+    @station = station 
     station.receive_train(self)
   end
 
   def depart(station)
     station.release_train(self)
+    @station = nil
   end
 
   def at_station?(station)

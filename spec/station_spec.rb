@@ -29,6 +29,8 @@ describe Station do
     end
 
     it 'should not receive a passenger if they are already at the station' do
+      station.receive_passenger(passenger)
+      expect { station.receive_passenger(passenger) }.to raise_error(RuntimeError)
     end
 
     it 'should know when it is full of passengers' do

@@ -7,12 +7,18 @@ describe Passenger do
   let(:station) { double :TrainStation, { :passengers => [] , :capacity => 1 } }
   let(:station2) { double :Station }
 
+  def passenger_arrival_procedure
+    passenger.enter(station)
+    passenger.touch_in
+  end
+
   context "Train interactions" do
 
     it 'should be able to board a train' do
       allow(train).to receive(:receive)
       allow(train).to receive(:full?)
-      passenger.touch_in
+      expect(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
       passenger.board(train, station)
     end
 
@@ -45,7 +51,6 @@ describe Passenger do
       allow(station).to receive(:receive_passenger)
       allow(station2).to receive(:receive_passenger)
       passenger.enter(station)
-      expect(passenger.current_station).to eq(station)
       expect { passenger.enter(station2) }.to raise_error(RuntimeError)
     end
 
@@ -55,14 +60,19 @@ describe Passenger do
     end
 
     it 'should be able to touch in' do
-      passenger.touch_in
+      allow(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
       expect(passenger.touched_in?).to be true
     end
 
-    xit 'should not be able to touch in twice in a row' do
+    it 'should not be able to touch in twice in a row' do
+      allow(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
+      expect { passenger.touch_in }.to raise_error(RuntimeError)
     end
 
-    xit 'should not be able to touch in unless inside a station' do
+    it 'should not be able to touch in unless inside a station' do
+      expect { passenger.touch_in }.to raise_error(RuntimeError)
     end
 
     it 'Should not be initialized as touched in' do
@@ -70,21 +80,26 @@ describe Passenger do
     end
 
     it 'should be able to touch out' do
-      passenger.touch_in
+      allow(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
       passenger.touch_out
       expect(passenger.touched_in?).to be false
     end
 
-    xit 'should not be able to touch out twice in a row' do
+    it 'should not be able to touch out twice in a row' do
+      allow(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
+      passenger.touch_out
+      expect { passenger.touch_out }.to raise_error(RuntimeError)
     end
 
     it 'should not be able to touch out unless inside the station' do
+      expect { passenger.touch_out }.to raise_error(RuntimeError)
     end
 
     it 'should touch out before leaving the station' do
       allow(station).to receive(:receive_passenger)
-      passenger.enter(station)
-      passenger.touch_in
+      passenger_arrival_procedure
       expect { passenger.exit(station) }.to raise_error(RuntimeError)
     end
 
@@ -102,12 +117,15 @@ describe Passenger do
     end
 
     it 'should have 2GBP credit removed each time it touches out' do
-      passenger.touch_in
+      allow(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
       passenger.touch_out
       expect(passenger.credit_check).to eq(0)
     end
 
     it 'should not be able to touch in with less that 2GBP' do
+      allow(station).to receive(:receive_passenger)
+      passenger_arrival_procedure
       passenger.touch_out
       expect { passenger.touch_in }.to raise_error(RuntimeError)
     end
