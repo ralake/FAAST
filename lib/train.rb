@@ -19,6 +19,10 @@ class Train
     passengers.count == 0
   end
 
+  def carriage_count
+    @capacity / carriage_capacityz
+  end
+
   def receive(passenger, station)
     raise "This train is full." if full?
     raise "This train is not at the station" unless self.at_station?(station)

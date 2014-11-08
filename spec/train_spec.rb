@@ -24,8 +24,11 @@ describe Train do
       expect(train2.capacity).to eq(120)
     end
 
+    it 'should know how many carriages it has' do
+      expect(train.carriage_count).to eq(2)
+    end
+
     it 'should know when it is full' do
-      allow(station).to receive(:platforms).and_return([])
       expect { fill_train(train) }.to raise_error(RuntimeError)
     end
 
