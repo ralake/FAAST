@@ -20,7 +20,7 @@ class Train
   end
 
   def carriage_count
-    @capacity / carriage_capacityz
+    @capacity / carriage_capacity
   end
 
   def receive(passenger, station)
