@@ -4,8 +4,10 @@ class Train
 
   attr_reader :capacity, :station
 
+  CARRIAGE_CAPACITY = 40
+
   def initialize(number_of_carriages = 2)
-    @capacity = number_of_carriages * carriage_capacity
+    @capacity = number_of_carriages * CARRIAGE_CAPACITY
     @station = nil
   end
 
@@ -22,7 +24,7 @@ class Train
   end
 
   def carriage_count
-    @capacity / carriage_capacity
+    @capacity / CARRIAGE_CAPACITY
   end
 
   def receive(passenger, station)
@@ -50,12 +52,6 @@ class Train
 
   def at_station?(station)
     station.platforms.include?(self)
-  end
-
-  private
-  
-  def carriage_capacity(number = 40)
-    number
   end
 
 end

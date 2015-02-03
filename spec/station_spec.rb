@@ -14,8 +14,8 @@ describe Station do
     end
 
     it 'should be able to set a capacity on initializing' do
-      station2 = Station.new(4, 2000) 
-      expect(station2.passenger_capacity).to eq(2000)
+      station_two = Station.new(4, 2000) 
+      expect(station_two.passenger_capacity).to eq(2000)
     end
 
     it 'should receive passengers' do
@@ -66,8 +66,8 @@ describe Station do
     end
 
     it 'should be able to vary the platform capacity on initiallization' do
-      station3 = Station.new(10)
-      expect(station3.platform_capacity).to eq(10)
+      station_three = Station.new(10)
+      expect(station_three.platform_capacity).to eq(10)
     end
 
     it 'should not allow more trains to arrive when the platforms are full' do
