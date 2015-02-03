@@ -1,3 +1,5 @@
+require 'exceptions'
+
 class Station
 
   def initialize(platform_capacity = 4, passenger_capacity = 1000)
@@ -5,8 +7,7 @@ class Station
     @platform_capacity = platform_capacity
   end
 
-  attr_reader :passenger_capacity
-  attr_reader :platform_capacity
+  attr_reader :passenger_capacity, :platform_capacity
 
   def full?
     passengers.count >= @passenger_capacity
@@ -21,12 +22,12 @@ class Station
   end
 
   def platforms
-    @platform ||= []
+    @platforms ||= []
   end
 
   def receive_passenger(passenger)
-    raise "Passenger is already at the station" if passengers.include?(passenger)
-    raise "The station is full." if passengers.count >= passenger_capacity
+    raise PassengerAlreadyAtStation if passengers.include?(passenger)
+    raise StationIsFull if passengers.count >= passenger_capacity
     passengers << passenger
   end
 

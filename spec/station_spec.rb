@@ -1,17 +1,11 @@
 require './lib/station'
+require 'helpers'
 
 describe Station do
 
-  let(:station) { Station.new }
+  let(:station)   { Station.new }
   let(:passenger) { double :passenger }
-  let(:train) { double :train }
-
-  def fill_station(station)
-    station.passenger_capacity.times do
-      passenger = Passenger.new
-      passenger.enter(station)
-    end
-  end
+  let(:train)     { double :train }
 
   context "Passenger interactions" do
   
@@ -30,7 +24,7 @@ describe Station do
 
     it 'should not receive a passenger if they are already at the station' do
       station.receive_passenger(passenger)
-      expect { station.receive_passenger(passenger) }.to raise_error(RuntimeError)
+      expect { station.receive_passenger(passenger) }.to raise_error(PassengerAlreadyAtStation)
     end
 
     it 'should know when it is full of passengers' do
@@ -40,7 +34,7 @@ describe Station do
 
     it 'should not allow a passenger to enter if it is full' do
       fill_station(station)
-      expect { station.receive_passenger(passenger) }.to raise_error(RuntimeError)
+      expect { station.receive_passenger(passenger) }.to raise_error(StationIsFull)
     end 
 
     it 'should release passengers' do

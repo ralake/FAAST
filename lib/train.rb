@@ -1,3 +1,5 @@
+require 'exceptions'
+
 class Train
 
    attr_reader :capacity, :station
@@ -24,19 +26,19 @@ class Train
   end
 
   def receive(passenger, station)
-    raise "This train is full." if full?
-    raise "This train is not at the station" unless self.at_station?(station)
+    raise TrainIsFull if full?
+    raise TrainNotAtStation unless at_station?(station)
     passengers << passenger
     station.passengers.delete(passenger)
   end
 
   def release(passenger, station)
-    raise "The train has not arrived yet" unless self.at_station?(station)
+    raise TrainNotArrived unless at_station?(station)
     passengers.delete(passenger)
   end
 
   def arrive(station)
-    raise "This train is at another station" unless @station == nil
+    raise TrainAtAnotherStation unless @station == nil
     @station = station 
     station.receive_train(self)
   end

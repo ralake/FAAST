@@ -1,17 +1,12 @@
 require './lib/train'
+require 'helpers'
 
 describe Train do
 
-  let(:train) { Train.new }
+  let(:train)     { Train.new }
   let(:passenger) { double :passenger }            
-  let(:station) { double :train_station,  :passengers => []  }
-  let(:station2) { double :train_station }
-
-  def fill_train(train)
-    passenger = Passenger.new
-    passenger.touch_in
-    train.capacity.times { passenger.board(train, station) }
-  end
+  let(:station)   { double :train_station,  passengers: [], platforms: [train]  }
+  let(:station2)  { double :train_station }
 
   context "Passenger interactions" do
 
@@ -29,7 +24,8 @@ describe Train do
     end
 
     it 'should know when it is full' do
-      expect { fill_train(train) }.to raise_error(RuntimeError)
+      fill_train(train)
+      expect(train).to be_full
     end
 
     it 'should know when it is empty' do
@@ -43,19 +39,19 @@ describe Train do
 
     it 'should only allow passengers to board if it is at a station' do
       allow(station).to receive(:platforms).and_return([])
-      expect { train.receive(passenger, station) }.to raise_error(RuntimeError)
+      expect { train.receive(passenger, station) }.to raise_error(TrainNotAtStation)
     end
 
     it 'should release passengers' do
       allow(station).to receive(:platforms).and_return([train])
       train.receive(passenger, station)
       train.release(passenger, station)
-      expect(train.passengers.count).to eq(0)
+      expect(train.passengers.count).to eq 0
     end
 
     it 'should not allow passengers to alight if it is not at a station' do
       allow(station).to receive(:platforms).and_return([])
-      expect { train.release(passenger, station) }.to raise_error(RuntimeError)
+      expect { train.release(passenger, station) }.to raise_error(TrainNotArrived)
     end
 
   end
@@ -71,14 +67,14 @@ describe Train do
       allow(station).to receive(:receive_train)
       allow(station2).to receive(:receive_train)
       train.arrive(station)
-      expect { train.arrive(station2) }.to raise_error(RuntimeError)
+      expect { train.arrive(station2) }.to raise_error TrainAtAnotherStation
     end
 
     it 'should not be able to arrive at the same station twice' do
       allow(station).to receive(:receive_train)
       allow(station2).to receive(:receive_train)
       train.arrive(station)
-      expect { train.arrive(station) }.to raise_error(RuntimeError)
+      expect { train.arrive(station) }.to raise_error TrainAtAnotherStation
     end
 
     it 'should be able to depart from a station' do
