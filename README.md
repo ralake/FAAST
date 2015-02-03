@@ -29,7 +29,7 @@ Train
 -----
 Responsibilities  | Collaborators
 ------------- | -------------
-have passengers | passenger
+receive and release passengers | passenger
 enter and exit stations | train
 vary its capacity | 
 
@@ -37,6 +37,6 @@ Station
 -------
 Responsibilities  | Collaborators
 ------------- | -------------
-have passengers | passenger
-have trains | train
+receive and release passengers | passenger
+receive and release trains | train
 vary its capacity for trains and passengers | 

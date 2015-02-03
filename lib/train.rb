@@ -2,7 +2,7 @@ require 'exceptions'
 
 class Train
 
-   attr_reader :capacity, :station
+  attr_reader :capacity, :station
 
   def initialize(number_of_carriages = 2)
     @capacity = number_of_carriages * carriage_capacity
@@ -29,7 +29,7 @@ class Train
     raise TrainIsFull if full?
     raise TrainNotAtStation unless at_station?(station)
     passengers << passenger
-    station.passengers.delete(passenger)
+    station.release_passenger(passenger)
   end
 
   def release(passenger, station)
@@ -52,7 +52,7 @@ class Train
     station.platforms.include?(self)
   end
 
-private
+  private
   
   def carriage_capacity(number = 40)
     number.to_i

@@ -72,7 +72,7 @@ describe Station do
 
     it 'should not allow more trains to arrive when the platforms are full' do
       station.platform_capacity.times { station.receive_train(train) }
-      expect { station.receive_train(train) }.to raise_error(RuntimeError)
+      expect { station.receive_train(train) }.to raise_error(NoPlatformsAvailable)
     end
 
   end

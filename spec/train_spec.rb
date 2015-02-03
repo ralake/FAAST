@@ -34,6 +34,7 @@ describe Train do
 
     it 'should receive passengers' do
       allow(station).to receive(:platforms).and_return([train])
+      allow(station).to receive(:release_passenger)
       expect { train.receive(passenger, station) }.to change { train.passengers }
     end
 
@@ -44,6 +45,7 @@ describe Train do
 
     it 'should release passengers' do
       allow(station).to receive(:platforms).and_return([train])
+      allow(station).to receive(:release_passenger)
       train.receive(passenger, station)
       train.release(passenger, station)
       expect(train.passengers.count).to eq 0
@@ -58,21 +60,22 @@ describe Train do
 
   context "Station interactions" do
 
+    before :each do
+      allow(station).to receive(:receive_train)
+      allow(station2).to receive(:receive_train)
+    end
+
     it 'should be able to arrive at a station' do
       expect(station).to receive(:receive_train)
       train.arrive(station)
     end
 
     it 'should not be able to arrive at the next station if it has not departed the current station' do
-      allow(station).to receive(:receive_train)
-      allow(station2).to receive(:receive_train)
       train.arrive(station)
       expect { train.arrive(station2) }.to raise_error TrainAtAnotherStation
     end
 
     it 'should not be able to arrive at the same station twice' do
-      allow(station).to receive(:receive_train)
-      allow(station2).to receive(:receive_train)
       train.arrive(station)
       expect { train.arrive(station) }.to raise_error TrainAtAnotherStation
     end

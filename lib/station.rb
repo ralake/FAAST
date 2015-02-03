@@ -36,7 +36,7 @@ class Station
   end
 
   def receive_train(train)
-    raise "No platforms are available." if platforms.count >= platform_capacity
+    raise NoPlatformsAvailable if platforms.count >= platform_capacity
     platforms << train
   end
 

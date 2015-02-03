@@ -1,5 +1,3 @@
-# Train Exceptions
-
 class TrainIsFull < Exception
   def message
     "This train is full."
@@ -75,5 +73,11 @@ end
 class NotEnoughCredit < Exception
   def message
     "Passenger does not have enough credit. Please add credit."
+  end
+end
+
+class NoPlatformsAvailable < Exception
+  def message
+    "No platforms are available."
   end
 end

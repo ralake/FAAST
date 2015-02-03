@@ -5,6 +5,7 @@ def fill_train(train)
   passenger.touch_in
   allow(station).to receive(:receive_train)
   train.arrive(station)
+  allow(station).to receive(:release_passenger)
   train.capacity.times { passenger.board(train, station) }
 end
 
