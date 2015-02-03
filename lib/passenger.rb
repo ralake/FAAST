@@ -56,7 +56,7 @@ class Passenger
     @credit
   end
 
-private
+  private
 
   def touch_in_checks
     raise PassengerNotInsideStation unless @current_station
