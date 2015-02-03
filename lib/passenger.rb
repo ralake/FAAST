@@ -12,7 +12,7 @@ class Passenger
   end
 
   def board(train, station)
-    raise PassengerNotTouchedIn if touched_in? == false
+    raise PassengerNotTouchedIn if !touched_in?
     raise TrainIsFull if train.full?
     train.receive(self, station)
   end
@@ -28,7 +28,7 @@ class Passenger
   end
 
   def exit(station)
-    raise PassengerMustTouchOut if touched_in? == true
+    raise PassengerMustTouchOut if touched_in?
     station.release_passenger(self)
     @current_station = nil
   end
@@ -43,7 +43,7 @@ class Passenger
   end
 
   def touch_out
-    raise PassengerTouchedOut if @touched_in == false
+    raise PassengerTouchedOut if !@touched_in
     @credit -= 2
     @touched_in = false
   end
@@ -61,7 +61,7 @@ private
   def touch_in_checks
     raise PassengerNotInsideStation unless @current_station
     raise NotEnoughCredit if @credit < 2
-    raise PassengerTouchedIn if @touched_in == true
+    raise PassengerTouchedIn if @touched_in
   end
 
 end
