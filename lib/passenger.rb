@@ -22,7 +22,7 @@ class Passenger
   end
 
   def enter(station)
-    raise PassengerAtAnotherStation if !@current_station.nil?
+    raise PassengerAtAnotherStation if @current_station
     station.receive_passenger(self)
     @current_station = station
   end
@@ -59,7 +59,7 @@ class Passenger
 private
 
   def touch_in_checks
-    raise PassengerNotInsideStation if @current_station == nil
+    raise PassengerNotInsideStation unless @current_station
     raise NotEnoughCredit if @credit < 2
     raise PassengerTouchedIn if @touched_in == true
   end

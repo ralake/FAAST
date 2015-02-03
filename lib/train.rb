@@ -38,7 +38,7 @@ class Train
   end
 
   def arrive(station)
-    raise TrainAtAnotherStation unless @station == nil
+    raise TrainAtAnotherStation if @station
     @station = station 
     station.receive_train(self)
   end
@@ -55,7 +55,7 @@ class Train
   private
   
   def carriage_capacity(number = 40)
-    number.to_i
+    number
   end
 
 end
